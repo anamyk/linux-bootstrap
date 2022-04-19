@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 
 echo ""
-echo "Configuring device variables ..."
 
 echo "Determine where to setup devie specific variables."
 read -p ">>> Do you work with .devicerc for bash and zsh or just .bashrc? ...type 'devicerc' or 'bashrc' and press <Enter>: "
@@ -14,6 +13,8 @@ else
     exit 1
 fi
 
+echo ""
+echo "Configuring device variables ..."
 
 [[ -f $shellrc ]] || touch $shellrc
 source $shellrc
