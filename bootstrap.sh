@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 echo "********************************************"
-echo "**** bootstrap linux ubuntu 21.10 **********"
+echo "****** bootstrap linux (also termux) *******"
 echo "********************************************"
 echo "The following basics will be configured:"
 echo "    - your device with device-name and email"
@@ -17,11 +17,25 @@ read -p "Are you sure (y/n)? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo ""
-    sudo apt update
-    sudo apt upgrade
-    echo ""
-    echo "Installing packages ..."
-    sudo apt install git vim-gtk3 ssh wget
+
+    if echo $PREFIX | grep -o "com.termux"; then
+        setup_type=termux
+    else
+        setup_type=linux
+    fi
+
+    if [[ $setup_type = linux ]]; then
+        echo ""
+        echo "Upgrading and installing packages ..."
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install git vim-gtk3 ssh wget
+    elif [[ $setup_type = termux ]]; then
+        echo ""
+        echo "Upgrading and installing packages ..."
+        pkg up
+        pkg install git vim tree openssh wget
+    fi
     . config-device.sh
     . config-ssh.sh
     . ssh-add.sh

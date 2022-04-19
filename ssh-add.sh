@@ -13,3 +13,14 @@ else
     echo ">>> Exiting ..."
     exit 1
 fi
+
+read -p ">>> Close Firefox. Is Firefox closed? ... if so, type 'closed' and press <Enter>: "
+if [[ $REPLY = closed ]]; then
+    echo ""
+else
+    echo ">>> ERROR: You need to close the programm first to avoid problems."
+    echo ">>> Exiting ..."
+    echo ""
+    exit 1
+fi
+

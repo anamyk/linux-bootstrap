@@ -2,9 +2,19 @@
 
 echo ""
 echo "Configuring device variables ..."
-# Setup the shell universals
-shellrc=$HOME/.devicerc
-# shellrc=$HOME/.bashrc
+
+echo "Determine where to setup devie specific variables."
+read -p ">>> Do you work with .devicerc for bash and zsh or just .bashrc? ...type 'devicerc' or 'bashrc' and press <Enter>: "
+if [[ $REPLY = devicerc ]]; then
+    shellrc=$HOME/.devicerc
+elif [[ $REPLY = bashrc ]]; then
+    shellrc=$HOME/.bashrc
+else
+    echo "Restart script and choose devicerc or bashrc. Exiting ..."
+    exit 1
+fi
+
+
 [[ -f $shellrc ]] || touch $shellrc
 source $shellrc
 
