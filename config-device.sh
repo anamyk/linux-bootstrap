@@ -13,6 +13,17 @@ else
     exit 1
 fi
 
+if echo $PREFIX | grep -o "com.termux"; then
+    setup_type=termux
+    keys_dir=$HOME/gpg-tools/gpg-keys
+else
+    setup_type=linux
+    keys_dir=$SOFTWARE_CUSTOM/gpg-tools/gpg-keys
+    CWD=$(pwd)
+    [[ -d $keys_dir ]] || keys_dir=$CWD/gpg-keys
+fi
+
+
 echo ""
 echo "Configuring device variables ..."
 
@@ -26,9 +37,12 @@ if [[ $DEVICE = '' ]]; then
 else
     echo "... again for this device named '$DEVICE'."
 fi
-if [[ $EMAIL = '' ]]; then
-    read -p "Enter a main email address: " EMAIL
-    EMAIL=$EMAIL
+
+if [[ $setup_type == linux ]]; then
+    if [[ $EMAIL = '' ]]; then
+        read -p "Enter a main email address: " EMAIL
+        EMAIL=$EMAIL
+    fi
 fi
 
 setting="export DEVICE=$DEVICE"; grep -qxF "$setting" $shellrc || echo $setting >> $shellrc;
